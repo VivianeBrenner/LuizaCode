@@ -6,7 +6,8 @@
   "author": "daniele-frade <daniele.fradee@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev server.ts"
+    "dev": "ts-node-dev server.ts",
+    "typeorm":"ts-node-dev node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "express": "^4.17.1",
