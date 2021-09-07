@@ -6,10 +6,13 @@
   "author": "daniele-frade <daniele.fradee@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev server.ts",
-    "typeorm":"ts-node-dev node_modules/typeorm/cli.js"
+    "dev": "ts-node-dev src/server.ts",
+    "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
+    "seed:config": "ts-node-dev node_modules/typeorm-seeding/dist/cli.js config",
+    "seed:run": "ts-node-dev node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mysql2": "^2.3.0",
     "reflect-metadata": "^0.1.13",
