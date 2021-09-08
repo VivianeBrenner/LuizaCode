@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateCustomersTable1630963093647 implements MigrationInterface {
 
@@ -11,13 +11,13 @@ export class CreateCustomersTable1630963093647 implements MigrationInterface {
                     {name: "firstName", type: "varchar", isNullable: false, length: "255"},
                     {name: "lastName", type: "varchar", isNullable: false, length: "255"},
                     {name: "email", type: "varchar", isNullable: false, length: "255"},
-                    {name: "password", type: "varchar", isNullable: false, length: "255"}
+                    {name: "password", type: "varchar", isNullable: false, length: "255"},
                 ]
             })
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("Customers")
+        await queryRunner.dropTable("customers")
     }
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:daniele-frade/omnichannel-luizacode.git",
-  "author": "daniele-frade <daniele.fradee@gmail.com>",
+  "author": "Ana Higo, Crislaine Silva, Daniele Frade, Lívia Fernandes, Vanessa Basílio, Viviane Brenner",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
