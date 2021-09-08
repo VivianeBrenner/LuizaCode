@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 3306,
   "username": "root",
-  "password": "",
+  "password": "sua_senha_aqui",
   "database": "omni_channel",
   "entities":["src/**/**.{ts, js}"],
   "migrations": ["src/database/migrations/**.ts"],
