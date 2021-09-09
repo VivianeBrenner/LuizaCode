@@ -1,13 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable } from 'typeorm'
+import { Product } from './Product'
 
 @Entity('shopping_carts')
 export class ShoppingCart extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  total: number;
+  total: number
 
-  // id_products
+  @ManyToMany(() => Product, product => product.shoppingCart)
+  @JoinTable()
+  products: Product[]
+
+
 
 }

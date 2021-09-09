@@ -1,19 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable } from 'typeorm'
+import { Store } from './Store'
+import { ShoppingCart } from './ShoppingCart' 
 
 @Entity('products')
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  name: string;
+  name: string
 
   @Column()
-  image: string;
+  image: string
   
   @Column()
-  price: number;
-
+  price: number
   
-  // id_store
+  @ManyToMany(() => Store, store => store.products)
+  @JoinTable()
+  stores: Store[]
+
+  @ManyToMany(() => ShoppingCart, shoppingCart => shoppingCart.products)
+  shoppingCart: ShoppingCart[] 
+
 }

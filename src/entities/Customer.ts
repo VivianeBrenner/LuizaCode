@@ -1,19 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm'
+import { Order } from './Order'
 
 @Entity('customers')
 export class Customer extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  firstName: string;
+  firstName: string
 
   @Column()
-  lastName: string;
+  lastName: string
   
   @Column()
-  email: string;
+  email: string
 
   @Column()
-  password: string;
+  password: string
+
+  @OneToMany(() => Order, order => order.customer)
+    orders: Order[]
+
 }
