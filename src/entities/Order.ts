@@ -1,22 +1,25 @@
-import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToOne, JoinColumn } from 'typeorm'
+import { Customer } from './Customer'
+import { ShoppingCart } from './ShoppingCart'
 
 @Entity('orders')
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  status: string;
+  status: string
 
   @CreateDateColumn({ name: "order_dt" })
-  orderDate: Date;
+  orderDate: Date
   
   @Column()
-  payment: string;
-
+  payment: string
   
-  // id_customer;
+  @ManyToOne(() => Customer, customer => customer.orders)
+  customer: Customer
 
-
-  // id_shopping-cart;
+  @OneToOne(() => ShoppingCart)
+    @JoinColumn()
+    shoppingCart: ShoppingCart
 }

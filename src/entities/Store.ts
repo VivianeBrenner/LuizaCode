@@ -1,16 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany } from 'typeorm'
+import { Product } from './Product'
 
 @Entity('stores')
 export class Store extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  name: string;
+  name: string
 
   @Column()
-  phone: string;
+  phone: string
   
   @Column()
-  address: string;
+  address: string
+
+  @ManyToMany(() => Product, product => product.stores)
+  products: Product[];
+    
 }
