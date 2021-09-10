@@ -1,18 +1,20 @@
 import { Request, Response } from 'express'
-import { getCustomRepository } from 'typeorm'
+import { getCustomRepository, getConnection } from 'typeorm'
 import ShoppingCartRepository  from '../repositories/ShoppingCartRepository'
+import ProductRepository from '../repositories/ProductRepository'
+import CustomerRepository  from '../repositories/CustomerRepository'
 
 
 const ShoppingCartsController = {
  
-    async getAllCustomers(req: Request, res: Response) {
+    async getAllShoppingCarts(_req: Request, res: Response) {
         const repository = getCustomRepository(ShoppingCartRepository)
-        const allCustomers = await repository.find()
+        const ShoppingCarts = await repository.find()
 
-        return res.status(200).json(allCustomers)
+        return res.status(200).json(ShoppingCarts)
     },
 
-    async getCustomer(req: Request, res: Response) {
+    async getShoppingCart(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(ShoppingCartRepository)
         const foundCustomer = await repository.findOne(customerId)
@@ -24,49 +26,52 @@ const ShoppingCartsController = {
         return res.status(200).json(foundCustomer)
     },
 
-    async createCustomer(req: Request, res: Response) {
+    async createShoppingCart(req: Request, res: Response) {
         // getting body from request
         // processing it and validating it
         // adding it to the database
         // and finally returning the response as a confirmation
         // otherwise throw an exception (e.g. registering a user with previously used email)
 
-        const newCustomerData = req.body
+        const newShoppingCartData = req.body
         const repository = getCustomRepository(ShoppingCartRepository)
+                                                    
         try {
-            const newCustomer = await repository.save(newCustomerData)
-            console.log(newCustomer)
-            return res.status(200).json(newCustomerData)
+            const newShoppingCarts = await repository.save(newShoppingCartData)
+            console.log(newShoppingCarts)
+            // função => somar o valor total dos produtos 
+            return res.status(200).json(newShoppingCarts)
         } catch (e) {
             return res.status(404).json({errorMessage: "Unable to create customer. Malformed data."})
+
         }
     },
 
-    async updateCustomer(req: Request, res: Response) {
-        const customerId = req.params.clienteId
+    async updateShoppingCart(req: Request, res: Response) {
+        const shoppingCartId = req.params.carrinhoId
         const repository = getCustomRepository(ShoppingCartRepository)
 
-        const existingCustomer = await repository.findOne(customerId)
-        if (!existingCustomer) {
+        const existingShoppingCart = await repository.findOne(shoppingCartId)
+        if (!existingShoppingCart) {
             return res.status(404).json({errorMessage: "Customer not found"})
         }
 
-        const customerNewData = req.body
+        const shoppingCartNewData = req.body
 
         try {
-            await repository.update(customerId, customerNewData)
-            for (let key in customerNewData) {
-                if (key in existingCustomer) {
-                    existingCustomer[key] = customerNewData[key]
+            await repository.update(shoppingCartId, shoppingCartNewData)
+            for (let key in shoppingCartNewData) {
+                if (key in existingShoppingCart) {
+                    existingShoppingCart[key] = shoppingCartNewData[key]
                 }
             }
-            return res.status(200).json(existingCustomer)
+            return res.status(200).json(existingShoppingCart)
         } catch (e) {
             return res.status(404).json({errorMessage: "Error happened while updating the customer"})
         }
     },
 
-    async deleteCustomer(req: Request, res: Response) {
+    async deleteShoppingCart(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(ShoppingCartRepository)
         await repository.delete(customerId)
