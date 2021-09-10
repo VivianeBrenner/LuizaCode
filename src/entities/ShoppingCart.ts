@@ -11,8 +11,6 @@ export class ShoppingCart extends BaseEntity {
 
   @ManyToMany(() => Product, product => product.shoppingCart)
   @JoinTable()
-  products: Product[]
-
-
+  products: Product[] // nome das chaves que vc quer que apareça, dentro do array?????
 
 }
