@@ -24,22 +24,48 @@ const StoresController = {
     },
 
     async createStore(req: Request, res: Response) {
-        // getting body from request
-        // processing it and validating it
-        // adding it to the database
-        // and finally returning the response as a confirmation
-        // otherwise throw an exception (e.g. registering a user with previously used email)
 
-        const newStorerData = req.body
+        const newStoreData = req.body
         const repository = getCustomRepository(StoreRepository)
         try {
-            const newStore = await repository.save(newStorerData)
-            console.log(newStore)
-            return res.status(200).json(newStorerData)
+            const newStore = await repository.save(newStoreData)
+            return res.status(200).json(newStoreData)
         } catch (e) {
             return res.status(404).json({errorMessage: "Unable to create store. Malformed data."})
         }
     },
+
+    async updateStore(req: Request, res: Response) {
+        const storeId = req.params.lojaId
+        const repository = getCustomRepository(StoreRepository)
+
+        const store = await repository.findOne(storeId)
+        if (!store) {
+            return res.status(404).json({errorMessage: "Store not found"})
+        }
+
+        const storeNewData = req.body
+
+        try {
+            await repository.update(store, storeNewData)
+            for (let key in storeNewData) {
+                if (key in store) {
+                    store[key] = storeNewData[key]
+                }
+            }
+            return res.status(200).json(store)
+        } catch (e) {
+            return res.status(404).json({errorMessage: "Error happened while updating the store."})
+        }
+    },
+
+    async deleteStore(req: Request, res: Response) {
+        const storeId = req.params.lojaId
+        const repository = getCustomRepository(StoreRepository)
+        await repository.delete(storeId)
+
+        return res.status(200).json()
+    }
 }
 
 export default StoresController

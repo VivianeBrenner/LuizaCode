@@ -1,78 +1,125 @@
 import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm'
-import ShoppingCartRepository  from '../repositories/ShoppingCartRepository'
+import { CartItem } from '../entities/CartItem'
+import { Customer } from '../entities/Customer'
+import { Order } from '../entities/Order'
+import { OrderItem } from '../entities/OrderItem'
+import { Store } from '../entities/Store'
+import CartItemRepository  from '../repositories/CartItemRepository'
+import OrderItemRepository from '../repositories/OrderItemRepository'
 
 
 const ShoppingCartsController = {
  
-    async getAllCustomers(req: Request, res: Response) {
-        const repository = getCustomRepository(ShoppingCartRepository)
-        const allCustomers = await repository.find()
+    async getCart(req: Request, res: Response) {
+        const customerId = req.params.clienteId
+        const repository = getCustomRepository(CartItemRepository)
+        const clientCart = await repository.find({relations: ["product"], where: {"customerId": customerId}})
 
-        return res.status(200).json(allCustomers)
+        return res.status(200).json(clientCart.map(cartItem => {
+            let item = cartItem.product
+            item["amount"] = cartItem.amount
+            return item
+        }))
     },
 
-    async getCustomer(req: Request, res: Response) {
+    async updateCart(req: Request, res: Response) {
+        if (!req.body || !req.body.produtos || !Array.isArray(req.body.produtos)) {
+            return res.status(404).json({errorMessage: "Error! Malformed request body."})
+        }
         const customerId = req.params.clienteId
-        const repository = getCustomRepository(ShoppingCartRepository)
-        const foundCustomer = await repository.findOne(customerId)
+        let updatedItems = Array<CartItem>()
 
-        if (!foundCustomer) {
-            return res.status(404).json({errorMessage: "Customer not found"})
+        req.body.produtos.forEach(productRelation => {
+            if (productRelation.produtoId === undefined || productRelation.quantidade === undefined) {
+                return res.status(404).json({errorMessage: "Error! Malformed request body."})
+            }
+            let newItem = new CartItem()
+            newItem.amount = productRelation.quantidade
+            newItem.productId = productRelation.produtoId
+            newItem.customerId = Number(customerId)
+            
+            updatedItems.push(newItem)
+        });
+
+        const repository = getCustomRepository(CartItemRepository)
+        try {
+            const cartItems = await repository.find({where: {"customerId": customerId}})
+            if (cartItems) {
+                await repository.remove(cartItems)
+            }
+            await repository.save(updatedItems)
+        } catch (error) {
+            console.log(error)
+            return res.status(404).json({errorMessage: "An unknown error happenned. Try again please."})
+        }
+
+        return res.status(200).json(updatedItems)
+    },
+
+    async clearCart(req: Request, res: Response) {
+
+        const customerId = req.params.clienteId
+        const repository = getCustomRepository(CartItemRepository)
+        const cartItems = await repository.find({where: {"customerId": customerId}})
+        if (cartItems) {
+            repository.remove(cartItems)
+        }
+
+        return res.status(200).json([])
+    },
+
+    async checkout(req: Request, res: Response) {
+        if (!req.body || !req.body.storeId) {
+            return res.status(404).json({errorMessage: "Error! Malformed request body."})
+        }
+
+        const customerId = req.params.clienteId
+        const repository = getCustomRepository(CartItemRepository)
+        const cartItems = await repository.find({relations: ["product"], where: {"customerId": customerId}})
+        
+        if (!cartItems || cartItems.length === 0) {
+            return res.status(404).json({errorMessage: "Your cart is currently empty. Nothing to be checked out."})
+        }
+
+        let order = new Order()
+        order.datePlaced = new Date()
+        let customer = new Customer()
+        customer.id = Number(customerId)
+        order.customer = customer
+        let store = new Store()
+        store.id = Number(req.body.storeId)
+        order.store = store
+
+        try {
+            await order.save()
+            // Convert cart products to OrderItem array
+            let currentItems = Array<OrderItem>()
+            cartItems.forEach(cartItem => {
+                const orderItem = new OrderItem()
+                orderItem.orderId = order.id
+                orderItem.productId = cartItem.product.id
+                orderItem.price = cartItem.product.price
+                orderItem.amount = cartItem.amount
+                orderItem.productName = cartItem.product.name
+                currentItems.push(orderItem)
+            })
+            
+            if (cartItems) {
+                repository.remove(cartItems)
+            }
+
+            const itemRepository = getCustomRepository(OrderItemRepository)
+            await itemRepository.save(currentItems)
+            order.orderItems = currentItems
+            return res.status(200).json(order)
+        } catch (error) {
+            return res.status(404).json({errorMessage: "Error. Please check you have the right store Id."})
         }
         
-        return res.status(200).json(foundCustomer)
-    },
-
-    async createCustomer(req: Request, res: Response) {
-        // getting body from request
-        // processing it and validating it
-        // adding it to the database
-        // and finally returning the response as a confirmation
-        // otherwise throw an exception (e.g. registering a user with previously used email)
-
-        const newCustomerData = req.body
-        const repository = getCustomRepository(ShoppingCartRepository)
-        try {
-            const newCustomer = await repository.save(newCustomerData)
-            console.log(newCustomer)
-            return res.status(200).json(newCustomerData)
-        } catch (e) {
-            return res.status(404).json({errorMessage: "Unable to create customer. Malformed data."})
-        }
-    },
-
-    async updateCustomer(req: Request, res: Response) {
-        const customerId = req.params.clienteId
-        const repository = getCustomRepository(ShoppingCartRepository)
-
-        const existingCustomer = await repository.findOne(customerId)
-        if (!existingCustomer) {
-            return res.status(404).json({errorMessage: "Customer not found"})
-        }
-
-        const customerNewData = req.body
-
-        try {
-            await repository.update(customerId, customerNewData)
-            for (let key in customerNewData) {
-                if (key in existingCustomer) {
-                    existingCustomer[key] = customerNewData[key]
-                }
-            }
-            return res.status(200).json(existingCustomer)
-        } catch (e) {
-            return res.status(404).json({errorMessage: "Error happened while updating the customer"})
-        }
-    },
-
-    async deleteCustomer(req: Request, res: Response) {
-        const customerId = req.params.clienteId
-        const repository = getCustomRepository(ShoppingCartRepository)
-        await repository.delete(customerId)
-
-        return res.status(200).json()
+        
+        
     }
-
 }
+
 export default ShoppingCartsController

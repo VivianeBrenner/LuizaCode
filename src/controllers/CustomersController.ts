@@ -25,18 +25,11 @@ const CustomersController = {
     },
 
     async createCustomer(req: Request, res: Response) {
-        // getting body from request
-        // processing it and validating it
-        // adding it to the database
-        // and finally returning the response as a confirmation
-        // otherwise throw an exception (e.g. registering a user with previously used email)
-
         const newCustomerData = req.body
         const repository = getCustomRepository(CustomerRepository)
         try {
             const newCustomer = await repository.save(newCustomerData)
-            console.log(newCustomer)
-            return res.status(200).json(newCustomerData)
+            return res.status(200).json(newCustomer)
         } catch (e) {
             return res.status(404).json({errorMessage: "Unable to create customer. Malformed data."})
         }

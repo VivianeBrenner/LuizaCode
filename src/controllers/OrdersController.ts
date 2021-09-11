@@ -1,77 +1,95 @@
 import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm'
+import { Order } from '../entities/Order'
+import CustomerRepository from '../repositories/CustomerRepository'
 import OrderRepository  from '../repositories/OrderRepository'
 
 
 const OrdersController = {
  
-    async getAllCustomers(req: Request, res: Response) {
-        const repository = getCustomRepository(OrderRepository)
-        const allCustomers = await repository.find()
-
-        return res.status(200).json(allCustomers)
-    },
-
-    async getCustomer(req: Request, res: Response) {
+    async getAllOrdersForCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
-        const repository = getCustomRepository(OrderRepository)
-        const foundCustomer = await repository.findOne(customerId)
+        const repository = getCustomRepository(CustomerRepository)
+        const foundCustomer = await repository.findOne(customerId, {relations: ["orders"]})
 
         if (!foundCustomer) {
             return res.status(404).json({errorMessage: "Customer not found"})
         }
+
+        //Add total to orders and subtotals to each order's items
+        const foundOrders = OrdersController.appendAmountsToOrders(foundCustomer.orders)
+
+        return res.status(200).json(foundOrders)
+    },
+
+    async getOrderForCustomer(req: Request, res: Response) {
+        const customerId = req.params.clienteId
+        const orderId = req.params.pedidoId
+        const repository = getCustomRepository(OrderRepository)
+        const foundOrder = await repository.findOne(orderId, {
+            where: { customer: { id: customerId } }
+        })
+
+        if (!foundOrder) {
+            return res.status(404).json({errorMessage: "Order not found"})
+        }
+
+        return res.status(200).json(foundOrder)
+    },
+
+    async releaseOrder(req: Request, res: Response) {
+        // make sure that the client is submitting the isPickedup and that it's set to 1
+        if (!req.body || !req.body.isPickedup || req.body.isPickedup !== 1) {
+            return res.status(404).json({errorMessage: "Malformed request."})
+        }
+
+        const customerId = req.params.clienteId
+        const orderId = req.params.pedidoId
+        const repository = getCustomRepository(OrderRepository)
+        const foundOrder = await repository.findOne(orderId, {
+            where: { customer: { id: customerId } }
+        })
         
-        return res.status(200).json(foundCustomer)
-    },
-
-    async createCustomer(req: Request, res: Response) {
-        // getting body from request
-        // processing it and validating it
-        // adding it to the database
-        // and finally returning the response as a confirmation
-        // otherwise throw an exception (e.g. registering a user with previously used email)
-
-        const newCustomerData = req.body
-        const repository = getCustomRepository(OrderRepository)
-        try {
-            const newCustomer = await repository.save(newCustomerData)
-            console.log(newCustomer)
-            return res.status(200).json(newCustomerData)
-        } catch (e) {
-            return res.status(404).json({errorMessage: "Unable to create customer. Malformed data."})
-        }
-    },
-
-    async updateCustomer(req: Request, res: Response) {
-        const customerId = req.params.clienteId
-        const repository = getCustomRepository(OrderRepository)
-
-        const existingCustomer = await repository.findOne(customerId)
-        if (!existingCustomer) {
-            return res.status(404).json({errorMessage: "Customer not found"})
+        if (!foundOrder) {
+            return res.status(404).json({errorMessage: "Order not found"})
         }
 
-        const customerNewData = req.body
+        if (foundOrder.isPickedup == 1) {
+            return res.status(404).json({errorMessage: "This order has already been picked up."})
+        }
+        
+        foundOrder.isPickedup = 1;
+        foundOrder.save()
 
-        try {
-            await repository.update(customerId, customerNewData)
-            for (let key in customerNewData) {
-                if (key in existingCustomer) {
-                    existingCustomer[key] = customerNewData[key]
+        return res.status(200).json(foundOrder)
+    },
+
+    appendAmountsToOrders(orders: Order[]) {
+        let formattedOrders = orders.map(order => {
+            let orderTotal = 0.0
+            let formattedItems = order.orderItems.map(item => {
+                const subTotal = item.price * item.amount
+                orderTotal += subTotal
+                return {
+                    "id": item.productId,
+                    "name": item.productName,
+                    "price": Number(item.price),
+                    "amount": item.amount,
+                    "subTotal": subTotal
                 }
+            })
+            return {
+                "id": order.id,
+                "total": orderTotal,
+                "store": order.store,
+                "isPickedup": order.isPickedup,
+                "datePlaced": order.datePlaced,
+                "datePickedup": order.datePickedup,
+                "items": formattedItems
             }
-            return res.status(200).json(existingCustomer)
-        } catch (e) {
-            return res.status(404).json({errorMessage: "Error happened while updating the customer"})
-        }
-    },
+        })
 
-    async deleteCustomer(req: Request, res: Response) {
-        const customerId = req.params.clienteId
-        const repository = getCustomRepository(OrderRepository)
-        await repository.delete(customerId)
-
-        return res.status(200).json()
+        return formattedOrders
     }
 
 }

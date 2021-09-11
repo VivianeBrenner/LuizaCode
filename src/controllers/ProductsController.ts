@@ -25,54 +25,47 @@ const ProductsController = {
     },
 
     async createProduct(req: Request, res: Response) {
-        // getting body from request
-        // processing it and validating it
-        // adding it to the database
-        // and finally returning the response as a confirmation
-        // otherwise throw an exception (e.g. registering a user with previously used email)
-
         const newProductData = req.body
         const repository = getCustomRepository(ProductRepository)
         try {
             const newProduct= await repository.save(newProductData)
-            console.log(newProduct)
             return res.status(200).json(newProductData)
         } catch (e) {
             return res.status(404).json({errorMessage: "Unable to create product. Malformed data."})
         }
     },
 
-    // async updateCustomer(req: Request, res: Response) {
-    //     const customerId = req.params.clienteId
-    //     const repository = getCustomRepository(ProductRepository)
+    async updateProduct(req: Request, res: Response) {
+        const productId = req.params.produtoId
+        const repository = getCustomRepository(ProductRepository)
 
-    //     const existingCustomer = await repository.findOne(customerId)
-    //     if (!existingCustomer) {
-    //         return res.status(404).json({errorMessage: "Customer not found"})
-    //     }
+        const product = await repository.findOne(productId)
+        if (!product) {
+            return res.status(404).json({errorMessage: "Product not found"})
+        }
 
-    //     const customerNewData = req.body
+        const productNewData = req.body
 
-    //     try {
-    //         await repository.update(customerId, customerNewData)
-    //         for (let key in customerNewData) {
-    //             if (key in existingCustomer) {
-    //                 existingCustomer[key] = customerNewData[key]
-    //             }
-    //         }
-    //         return res.status(200).json(existingCustomer)
-    //     } catch (e) {
-    //         return res.status(404).json({errorMessage: "Error happened while updating the customer"})
-    //     }
-    // },
+        try {
+            await repository.update(productId, productNewData)
+            for (let key in productNewData) {
+                if (key in product) {
+                    product[key] = productNewData[key]
+                }
+            }
+            return res.status(200).json(product)
+        } catch (e) {
+            return res.status(404).json({errorMessage: "Error happened while updating the product"})
+        }
+    },
 
-    // async deleteCustomer(req: Request, res: Response) {
-    //     const customerId = req.params.clienteId
-    //     const repository = getCustomRepository(ProductRepository)
-    //     await repository.delete(customerId)
+    async deleteProduct(req: Request, res: Response) {
+        const productId = req.params.produtoId
+        const repository = getCustomRepository(ProductRepository)
+        await repository.delete(productId)
 
-    //     return res.status(200).json()
-    // }
+        return res.status(200).json()
+    }
 
 }
 export default ProductsController

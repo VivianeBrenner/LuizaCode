@@ -1,6 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable } from 'typeorm'
-import { Store } from './Store'
-import { ShoppingCart } from './ShoppingCart' 
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, JoinColumn, OneToMany } from 'typeorm'
+import { OrderItem } from './OrderItem'
 
 @Entity('products')
 export class Product extends BaseEntity {
@@ -10,17 +9,13 @@ export class Product extends BaseEntity {
   @Column()
   name: string
 
-  @Column()
-  image: string
-  
-  @Column()
+  @Column({ name: "image_url" })
+  imageUrl: string
+
+  @Column("decimal", { precision: 7, scale: 2 })
   price: number
-  
-  @ManyToMany(() => Store, store => store.products)
-  @JoinTable()
-  stores: Store[]
 
-  @ManyToMany(() => ShoppingCart, shoppingCart => shoppingCart.products)
-  shoppingCart: ShoppingCart[] 
-
+  @OneToMany(() => OrderItem, orderItem => orderItem.product)
+  @JoinColumn({name: "productId"})
+  orderItems: OrderItem[]
 }

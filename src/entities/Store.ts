@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany } from 'typeorm'
-import { Product } from './Product'
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm'
+import { Order } from './Order'
 
 @Entity('stores')
 export class Store extends BaseEntity {
@@ -15,7 +15,6 @@ export class Store extends BaseEntity {
   @Column()
   address: string
 
-  @ManyToMany(() => Product, product => product.stores)
-  products: Product[];
-    
+  @OneToMany(() => Order, order => order.store)
+  orders: Order[];
 }

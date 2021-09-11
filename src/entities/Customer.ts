@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, JoinTable } from 'typeorm'
 import { Order } from './Order'
+import { CartItem } from './CartItem'
 
 @Entity('customers')
 export class Customer extends BaseEntity {
@@ -19,6 +20,8 @@ export class Customer extends BaseEntity {
   password: string
 
   @OneToMany(() => Order, order => order.customer)
-    orders: Order[]
+  orders: Order[]
 
+  @OneToMany(() => CartItem, cartItem => cartItem.customer)
+  cartItems: CartItem[]
 }
