@@ -5,7 +5,7 @@ import CustomerRepository  from '../repositories/CustomerRepository'
 
 const CustomersController = {
  
-    async getAllCustomers(req: Request, res: Response) {
+    async getAllCustomers(_req: Request, res: Response) {
         const repository = getCustomRepository(CustomerRepository)
         const allCustomers = await repository.find()
 
@@ -68,4 +68,5 @@ const CustomersController = {
     }
 
 }
+
 export default CustomersController
