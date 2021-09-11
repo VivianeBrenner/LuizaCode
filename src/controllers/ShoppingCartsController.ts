@@ -117,8 +117,6 @@ const ShoppingCartsController = {
             return res.status(404).json({errorMessage: "Error. Please check you have the right store Id."})
         }
         
-        
-        
     }
 }
 

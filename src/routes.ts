@@ -44,4 +44,3 @@ routes.delete('/carrinho/:clienteId', ShoppingCartsController.clearCart)
 routes.put('/carrinho/:clienteId/checkout', ShoppingCartsController.checkout)
 
 export default routes
-
