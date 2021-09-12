@@ -318,10 +318,9 @@
     },
     "/lojas": {
       "get": {
-        "tags": [
-          "Lojas"
-        ],
-        "description": "",
+        "summary": "Listagem das lojas",
+        "description": "Essa rota é responsavel por retornar a lista das lojas cadastradas",
+        "tags": [ "Lojas" ],
         "parameters": [],
         "responses": {
           "200": {
@@ -330,10 +329,9 @@
         }
       },
       "post": {
-        "tags": [
-          "Lojas"
-        ],
-        "description": "",
+        "summary": "Cadastro das lojas",
+        "description": "Essa rota é responsavel pelo cadastro das lojas",
+        "tags": [ "Lojas" ],
         "parameters": [],
         "responses": {
           "200": {
@@ -347,10 +345,9 @@
     },
     "/lojas/{lojaId}": {
       "get": {
-        "tags": [
-          "Lojas"
-        ],
-        "description": "",
+        "summary": "Detalhe da loja",
+        "description": "Essa rota é responsavel pelo detalhe da loja",
+        "tags": [ "Lojas" ],
         "parameters": [
           {
             "name": "lojaId",
@@ -369,10 +366,11 @@
         }
       },
       "put": {
+        "summary": "Atualização no cadastro das lojas",
+        "description": "Essa rota é responsavel pela atualização das lojas cadastradas",
         "tags": [
           "Lojas"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "lojaId",
@@ -391,10 +389,11 @@
         }
       },
       "delete": {
+        "summary": "Exclusão da loja",
+        "description": "Essa rota é responsavel pela exclusão do cadastro da loja",
         "tags": [
           "Lojas"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "lojaId",
