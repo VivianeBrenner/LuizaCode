@@ -1,37 +1,40 @@
 # 💻 ladies.get
 
-> Este é um projeto desenvolvido durante o **Luiza Code #3 Node.js** como requisito de projeto final, apresentado no 13 ou 14 de Setembro de 2021.
+> Este é um projeto desenvolvido durante o **Luiza Code #3 Node.js** com o objetivo de projeto final, apresentado no 13 ou 14 de Setembro de 2021.
 
 
-*Uma das funcionalidades mais interessantes em um e-commerce é a Omni Channel.* 
+*Serviço HTTP resolvendo a funcionalidade de Omni Channel.* 
 
-*Ou seja, não há mais diferenças entre lojas físicas ou na web. O consumidor pode procurar
-o produto em uma loja física e comprar pela internet ou vice-versa.
-Basicamente, o cliente Omni Channel é aquele que utiliza de todos os canais
-simultaneamente, cruzando compras em ambientes físicos e online.
-O objetivo é que você desenvolva um serviço HTTP resolvendo a funcionalidade de
-Omni Channel do cliente.* 
+<details>
+  <summary>Requisitos</summary>
+  <ul>
+    <li>Listar produtos</li>
+    <li>Listar lojas físicas</li>
+    <li>Cadastrar cliente</li>
+    <li>Adicionar um produto na lista de compra da cliente</li>
+    <li>Remover um produto da lista de compra da cliente</li>
+    <li>Finalizar compra</li>
+    <li>Consultar todas as compras realizadas da cliente</li>
+  </ul>
+</details>
 
-### 📋 O projeto deve atender os seguintes requisitos:
-[ será bom deixar isso aqui? ou apenas com o projeto finalizado informar o que ele tem? ]
+<details>
+  <summary>Regras</summary>
+    <ul>
+    <li>O cliente só pode comprar um produto de cada tipo.</li>
+    <li>Após realizar a compra o status dessa compra é 'Realizada'</li>
+    <li>E após a retirada do produto na loja física passa a ser 'Retirado'</li>
+    </ul>
+</details>
 
-- Adicionar e remover um produto na lista da compra da cliente;
-- Finalizar a compra da cliente;
-- Consultar todos os produtos disponíveis;
-- Consultar a lista de compras da cliente;
-- Consultar todas as lojas;
-
-## ⚒️ Construído com: 
+## Construído com: 
 * [Node.js `v14.17.5`](https://nodejs.org)
 * [Typescript `v4.4.2`](https://www.typescriptlang.org/)
 * [Express `v4.17.1`](https://expressjs.com/pt-br/)
 * [MySQL `v14.14`](https://www.mysql.com/)
 * [TypeORM `v0.2.37`](https://typeorm.io/#/)
 
-##  Pré-requisitos:
-( qual compilador, biblioteca, IDE, sistema operacional necessário para funcionar)
-
-## 👨‍💻 Como posso executá-lo?
+## Instalação
 Clone o projeto e acesse a pasta:
 
 ```sh
@@ -44,17 +47,16 @@ Para iniciá-lo, siga os passos abaixo:
 ```sh
 # Instala as dependências do projeto
 yarn
+```
+No seu cliente SQL, crie um banco de dados chamado *omnichannel*.
+Após criação do banco de dados, caso tenha colocado senha, verifique a inclusão no arquivo `ormconfig.json`, junto com o username.
 
+Em seguida, execute: 
+```sh
 # Inicia o projeto
 yarn dev
 ```
 O projeto estará disponível no http://localhost:3000. 
-
-## 📌 Acesse os endpoints:
-
-```sh
-Postman/Insomnia
-```
 
 ```sh
 Postman/Insomnia
@@ -63,6 +65,8 @@ Postman/Insomnia
 ## 📌 Endpoints
 
 [ endpoints do swagger aqui ]
+
+
 
 ## 👩‍💻 Participantes
 
@@ -73,8 +77,4 @@ Postman/Insomnia
 * [Vanessa Basílio](https://www.linkedin.com/in/vanessabasilio)
 * [Viviane Brenner](https://www.linkedin.com/in/viviane-brenner)
 
-[English Version](./readme-en.md)
-
-```sh
-> ladies.get('/success') 🚀
-```
+<p style="text-align: center;">ladies.get('/success') 🚀</p>
