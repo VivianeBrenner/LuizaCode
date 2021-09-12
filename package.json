@@ -1,7 +1,7 @@
 {
   "name": "omnichannel-luizacode",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.ts",
   "repository": "git@github.com:daniele-frade/omnichannel-luizacode.git",
   "author": "Ana Higo, Crislaine Silva, Daniele Frade, Lívia Fernandes, Vanessa Basílio, Viviane Brenner",
   "license": "MIT",
@@ -9,13 +9,16 @@
     "dev": "ts-node-dev src/server.ts",
     "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
     "seed:config": "ts-node-dev node_modules/typeorm-seeding/dist/cli.js config",
-    "seed:run": "ts-node-dev node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed:run": "ts-node-dev node_modules/typeorm-seeding/dist/cli.js seed",
+    "swagger:update": "node swagger.js"
   },
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mysql2": "^2.3.0",
     "reflect-metadata": "^0.1.13",
+    "swagger-autogen": "^2.11.2",
+    "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.37"
   },
   "devDependencies": {
