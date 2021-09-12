@@ -14,8 +14,8 @@
   "paths": {
     "/clientes": {
       "get": {
-        "summary": "Retorna a listagem dos clientes",
-        "description": "Essa rota é responsavel pela listagem dos clientes já cadastrados",
+        "summary": "Listagem dos clientes",
+        "description": "Essa rota é responsavel por retornar a listagem dos clientes já cadastrados",
         "tags": [ "Clientes" ],
         "requestBody": {
           "content": {
@@ -49,9 +49,16 @@
       "get": {
         "summary": "Detalhe do cliente",
         "description": "Essa rota é responsavel pelo detalhe do cadastro do cliente",
-        "tags": [
-          "Clientes"
-        ],
+        "tags": [ "Clientes" ],
+        "requestBody": {
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref": "#/components/schemas/Cliente"
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "clienteId",
@@ -212,10 +219,11 @@
     },
     "/produtos": {
       "get": {
+        "summary": "Listagem dos produtos",
+        "description": "Essa rota é responsavel por retornar a listagem dos produtos já cadastrados",
         "tags": [
           "Produtos"
         ],
-        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -224,10 +232,11 @@
         }
       },
       "post": {
+        "summary": "Cadastro de produtos",
+        "description": "Essa rota é responsavel pelo cadastro de produtos",
         "tags": [
           "Produtos"
         ],
-        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -241,10 +250,11 @@
     },
     "/produtos/{produtoId}": {
       "get": {
+        "summary": "Listagem do detalhe do produto",
+        "description": "Essa rota é responsavel por retornar o detalhe do produto",
         "tags": [
           "Produtos"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "produtoId",
@@ -263,10 +273,11 @@
         }
       },
       "put": {
+        "summary": "Atualização do produto",
+        "description": "Essa rota é responsavel por retornar a listagem dos produtos já cadastrados",
         "tags": [
           "Produtos"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "produtoId",
@@ -285,10 +296,11 @@
         }
       },
       "delete": {
+        "summary": "Exclusão do produto",
+        "description": "Essa rota é responsavel exclusão do produto",
         "tags": [
           "Produtos"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "produtoId",
