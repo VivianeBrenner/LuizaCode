@@ -51,8 +51,10 @@ yarn
 No seu cliente SQL, crie um banco de dados chamado *omnichannel*.
 Após criação do banco de dados, caso tenha colocado senha, verifique a inclusão no arquivo `ormconfig.json`, junto com o username.
 
-Em seguida, execute: 
 ```sh
+# Recebe importações das tabelas já existentes
+yarn seed:run
+
 # Inicia o projeto
 yarn dev
 ```
@@ -77,4 +79,5 @@ Postman/Insomnia
 * [Vanessa Basílio](https://www.linkedin.com/in/vanessabasilio)
 * [Viviane Brenner](https://www.linkedin.com/in/viviane-brenner)
 
-<p style="text-align: center;">ladies.get('/success') 🚀</p>
+
+>ladies.get('/success') 🚀
