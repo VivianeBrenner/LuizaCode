@@ -30,18 +30,25 @@ const ShoppingCartsController = {
         const customerId = req.params.clienteId
         let updatedItems = Array<CartItem>()
 
-        req.body.produtos.forEach(productRelation => {
-            if (productRelation.produtoId === undefined || productRelation.quantidade === undefined) {
+        req.body.produtos.forEach(product => {
+            // Making sure that for each product we receive the "produtotId" and the "quantidade"
+            if (product.produtoId === undefined || product.quantidade === undefined) {
                 return res.status(404).json({errorMessage: "Error! Malformed request body."})
             }
+            // Checking each product quantity is 1
+            if (product.quantidade !== 1) {
+                return res.status(404).json({errorMessage: "Error! Each product can just be purchase once."})
+            }
+
             let newItem = new CartItem()
-            newItem.amount = productRelation.quantidade
-            newItem.productId = productRelation.produtoId
+            newItem.amount = product.quantidade
+            newItem.productId = product.produtoId
             newItem.customerId = Number(customerId)
             
             updatedItems.push(newItem)
         });
 
+        // Remove current items from cart and add the updated cart items
         const repository = getCustomRepository(CartItemRepository)
         try {
             const cartItems = await repository.find({where: {"customerId": customerId}})
@@ -57,6 +64,7 @@ const ShoppingCartsController = {
         return res.status(200).json(updatedItems)
     },
 
+    // Remove all cart items
     async clearCart(req: Request, res: Response) {
 
         const customerId = req.params.clienteId
@@ -69,6 +77,7 @@ const ShoppingCartsController = {
         return res.status(200).json([])
     },
 
+    // Remove items from cart and create an order out of them
     async checkout(req: Request, res: Response) {
         if (!req.body || !req.body.storeId) {
             return res.status(404).json({errorMessage: "Error! Malformed request body."})

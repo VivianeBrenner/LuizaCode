@@ -5,6 +5,7 @@ import CustomerRepository  from '../repositories/CustomerRepository'
 
 const CustomersController = {
  
+    // Get all customer
     async getAllCustomers(req: Request, res: Response) {
         const repository = getCustomRepository(CustomerRepository)
         const allCustomers = await repository.find()
@@ -12,6 +13,7 @@ const CustomersController = {
         return res.status(200).json(allCustomers)
     },
 
+    // Get a specific customer
     async getCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(CustomerRepository)
@@ -24,6 +26,7 @@ const CustomersController = {
         return res.status(200).json(foundCustomer)
     },
 
+    // Create a new customer
     async createCustomer(req: Request, res: Response) {
         const newCustomerData = req.body
         const repository = getCustomRepository(CustomerRepository)
@@ -35,11 +38,13 @@ const CustomersController = {
         }
     },
 
+    // Update a specific customer
     async updateCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(CustomerRepository)
 
         const existingCustomer = await repository.findOne(customerId)
+        
         if (!existingCustomer) {
             return res.status(404).json({errorMessage: "Customer not found"})
         }
@@ -59,6 +64,7 @@ const CustomersController = {
         }
     },
 
+    // Delete a specific customer
     async deleteCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(CustomerRepository)

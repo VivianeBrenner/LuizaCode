@@ -29,7 +29,7 @@ const StoresController = {
         const repository = getCustomRepository(StoreRepository)
         try {
             const newStore = await repository.save(newStoreData)
-            return res.status(200).json(newStoreData)
+            return res.status(200).json(newStore)
         } catch (e) {
             return res.status(404).json({errorMessage: "Unable to create store. Malformed data."})
         }

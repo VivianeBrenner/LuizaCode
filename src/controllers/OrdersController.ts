@@ -16,7 +16,7 @@ const OrdersController = {
             return res.status(404).json({errorMessage: "Customer not found"})
         }
 
-        //Add total to orders and subtotals to each order's items
+        // Add total to orders and subtotals to each order's items
         const foundOrders = OrdersController.appendAmountsToOrders(foundCustomer.orders)
 
         return res.status(200).json(foundOrders)
