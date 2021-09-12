@@ -1,41 +1,39 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "omnichannel luizacode",
+    "title": "omnichannel luizacode #3 node.js",
     "description": "Documentação dos endpoints referente ao projeto Omnichannel feito pelo grupo Ladies.get no programa Luizacode"
   },
   "host": "localhost:3000",
   "basePath": "/",
   "tags": [],
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "schemes": [ "http" ],
+  "consumes": [ "application/json" ],
+  "produces": [ "application/json" ],
   "paths": {
     "/clientes": {
       "get": {
-        "tags": [
-          "Clientes"
-        ],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
+        "summary": "Retorna a listagem dos clientes",
+        "description": "Essa rota é responsavel pela listagem dos clientes já cadastrados",
+        "tags": [ "Clientes" ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            }
           }
-        }
+        },
+        "responses": { "200": { "description": "OK" }  }
       },
       "post": {
+        "summary": "Cadastro dos clientes",
+        "description": "Essa rota é responsavel pelo cadastro de cliente",
         "tags": [
           "Clientes"
         ],
-        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -49,10 +47,11 @@
     },
     "/clientes/{clienteId}": {
       "get": {
+        "summary": "Detalhe do cliente",
+        "description": "Essa rota é responsavel pelo detalhe do cadastro do cliente",
         "tags": [
           "Clientes"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -71,10 +70,11 @@
         }
       },
       "put": {
+        "summary": "Atualização do cadastro do cliente",
+        "description": "Essa rota é responsavel pela atualização do cadastro do cliente",
         "tags": [
           "Clientes"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -93,10 +93,11 @@
         }
       },
       "delete": {
+        "summary": "Exclusão de cadastro do cliente",
+        "description": "Essa rota é responsavel pela exclusão do cadastro do cliente",
         "tags": [
           "Clientes"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -114,10 +115,11 @@
     },
     "/clientes/{clienteId}/pedidos": {
       "get": {
+        "summary": "Listagem de pedidos do cliente",
+        "description": "Essa rota é responsavel pela listagem dos pedidos do cliente",
         "tags": [
           "Clientes"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -138,10 +140,11 @@
     },
     "/clientes/{clienteId}/pedidos/{pedidoId}": {
       "get": {
+        "summary": "Detalhe do pedido do cliente",
+        "description": "Essa rota é responsavel pelo detalhe do pedido do cliente",
         "tags": [
           "Clientes"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -166,10 +169,11 @@
         }
       },
       "put": {
+        "summary": "Atualização do pedido do cliente",
+        "description": "Essa rota é responsavel pela atualização do pedido do cliente",
         "tags": [
           "Clientes"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -505,5 +509,28 @@
       }
     }
   },
-  "definitions": {}
+  "components": {
+    "schemas": {
+      "Cliente": {
+        "type": "object",
+        "properties":{
+          "id": {
+            "type": "number"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
