@@ -8,7 +8,6 @@ import {
   ShoppingCartsController
 } from './controllers'
 
-
 const routes = Router()
 
 // Customer routes:

@@ -394,7 +394,7 @@
         }
       }
     },
-    "/carrinho/{clienteId}": {
+    "/clientes/{clienteId}/carrinho": {
       "get": {
         "tags": [
           "Carrinho"
@@ -468,7 +468,7 @@
         }
       }
     },
-    "/carrinho/{clienteId}/checkout": {
+    "/clientes/{clienteId}/carrinho/checkout": {
       "put": {
         "tags": [
           "Carrinho"
