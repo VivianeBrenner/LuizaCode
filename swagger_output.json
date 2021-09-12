@@ -411,10 +411,11 @@
     },
     "/clientes/{clienteId}/carrinho": {
       "get": {
+        "summary": "Lista de compras do cliente",
+        "description": "Essa rota é responsavel por retornar a lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -430,10 +431,11 @@
         }
       },
       "put": {
+        "summary": "Atualização da lista de compras do cliente",
+        "description": "Essa rota é responsavel por atualizar a lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -464,10 +466,11 @@
         }
       },
       "delete": {
+        "summary": "Exclusão da lista de compras do cliente",
+        "description": "Essa rota é responsavel pela exclusão da lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -485,10 +488,11 @@
     },
     "/clientes/{clienteId}/carrinho/checkout": {
       "put": {
+        "summary": "Atualização da lista de compras do cliente",
+        "description": "Essa rota é responsavel pela atualização da lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
-        "description": "",
         "parameters": [
           {
             "name": "clienteId",
