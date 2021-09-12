@@ -1,39 +1,41 @@
 {
-  "openapi": "3.0.0",
+  "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "omnichannel luizacode #3 node.js",
+    "title": "omnichannel luizacode",
     "description": "Documentação dos endpoints referente ao projeto Omnichannel feito pelo grupo Ladies.get no programa Luizacode"
   },
   "host": "localhost:3000",
   "basePath": "/",
   "tags": [],
-  "schemes": [ "http" ],
-  "consumes": [ "application/json" ],
-  "produces": [ "application/json" ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/clientes": {
       "get": {
-        "summary": "Listagem dos clientes",
-        "description": "Essa rota é responsavel por retornar a listagem dos clientes já cadastrados",
-        "tags": [ "Clientes" ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Cliente"
-              }
-            }
-          }
-        },
-        "responses": { "200": { "description": "OK" }  }
-      },
-      "post": {
-        "summary": "Cadastro dos clientes",
-        "description": "Essa rota é responsavel pelo cadastro de cliente",
         "tags": [
           "Clientes"
         ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -47,18 +49,10 @@
     },
     "/clientes/{clienteId}": {
       "get": {
-        "summary": "Detalhe do cliente",
-        "description": "Essa rota é responsavel pelo detalhe do cadastro do cliente",
-        "tags": [ "Clientes" ],
-        "requestBody": {
-          "content":{
-            "application/json":{
-              "schema":{
-                "$ref": "#/components/schemas/Cliente"
-              }
-            }
-          }
-        },
+        "tags": [
+          "Clientes"
+        ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -77,11 +71,10 @@
         }
       },
       "put": {
-        "summary": "Atualização do cadastro do cliente",
-        "description": "Essa rota é responsavel pela atualização do cadastro do cliente",
         "tags": [
           "Clientes"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -100,11 +93,10 @@
         }
       },
       "delete": {
-        "summary": "Exclusão de cadastro do cliente",
-        "description": "Essa rota é responsavel pela exclusão do cadastro do cliente",
         "tags": [
           "Clientes"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -122,11 +114,10 @@
     },
     "/clientes/{clienteId}/pedidos": {
       "get": {
-        "summary": "Listagem de pedidos do cliente",
-        "description": "Essa rota é responsavel pela listagem dos pedidos do cliente",
         "tags": [
           "Clientes"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -147,11 +138,10 @@
     },
     "/clientes/{clienteId}/pedidos/{pedidoId}": {
       "get": {
-        "summary": "Detalhe do pedido do cliente",
-        "description": "Essa rota é responsavel pelo detalhe do pedido do cliente",
         "tags": [
           "Clientes"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -176,11 +166,10 @@
         }
       },
       "put": {
-        "summary": "Atualização do pedido do cliente",
-        "description": "Essa rota é responsavel pela atualização do pedido do cliente",
         "tags": [
           "Clientes"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -219,11 +208,10 @@
     },
     "/produtos": {
       "get": {
-        "summary": "Listagem dos produtos",
-        "description": "Essa rota é responsavel por retornar a listagem dos produtos já cadastrados",
         "tags": [
           "Produtos"
         ],
+        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -232,11 +220,10 @@
         }
       },
       "post": {
-        "summary": "Cadastro de produtos",
-        "description": "Essa rota é responsavel pelo cadastro de produtos",
         "tags": [
           "Produtos"
         ],
+        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -250,11 +237,10 @@
     },
     "/produtos/{produtoId}": {
       "get": {
-        "summary": "Listagem do detalhe do produto",
-        "description": "Essa rota é responsavel por retornar o detalhe do produto",
         "tags": [
           "Produtos"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "produtoId",
@@ -273,11 +259,10 @@
         }
       },
       "put": {
-        "summary": "Atualização do produto",
-        "description": "Essa rota é responsavel por retornar a listagem dos produtos já cadastrados",
         "tags": [
           "Produtos"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "produtoId",
@@ -296,11 +281,10 @@
         }
       },
       "delete": {
-        "summary": "Exclusão do produto",
-        "description": "Essa rota é responsavel exclusão do produto",
         "tags": [
           "Produtos"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "produtoId",
@@ -318,9 +302,10 @@
     },
     "/lojas": {
       "get": {
-        "summary": "Listagem das lojas",
-        "description": "Essa rota é responsavel por retornar a lista das lojas cadastradas",
-        "tags": [ "Lojas" ],
+        "tags": [
+          "Lojas"
+        ],
+        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -329,9 +314,10 @@
         }
       },
       "post": {
-        "summary": "Cadastro das lojas",
-        "description": "Essa rota é responsavel pelo cadastro das lojas",
-        "tags": [ "Lojas" ],
+        "tags": [
+          "Lojas"
+        ],
+        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -345,9 +331,10 @@
     },
     "/lojas/{lojaId}": {
       "get": {
-        "summary": "Detalhe da loja",
-        "description": "Essa rota é responsavel pelo detalhe da loja",
-        "tags": [ "Lojas" ],
+        "tags": [
+          "Lojas"
+        ],
+        "description": "",
         "parameters": [
           {
             "name": "lojaId",
@@ -366,11 +353,10 @@
         }
       },
       "put": {
-        "summary": "Atualização no cadastro das lojas",
-        "description": "Essa rota é responsavel pela atualização das lojas cadastradas",
         "tags": [
           "Lojas"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "lojaId",
@@ -389,11 +375,10 @@
         }
       },
       "delete": {
-        "summary": "Exclusão da loja",
-        "description": "Essa rota é responsavel pela exclusão do cadastro da loja",
         "tags": [
           "Lojas"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "lojaId",
@@ -411,11 +396,10 @@
     },
     "/clientes/{clienteId}/carrinho": {
       "get": {
-        "summary": "Lista de compras do cliente",
-        "description": "Essa rota é responsavel por retornar a lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -431,11 +415,10 @@
         }
       },
       "put": {
-        "summary": "Atualização da lista de compras do cliente",
-        "description": "Essa rota é responsavel por atualizar a lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -466,11 +449,10 @@
         }
       },
       "delete": {
-        "summary": "Exclusão da lista de compras do cliente",
-        "description": "Essa rota é responsavel pela exclusão da lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -488,11 +470,10 @@
     },
     "/clientes/{clienteId}/carrinho/checkout": {
       "put": {
-        "summary": "Atualização da lista de compras do cliente",
-        "description": "Essa rota é responsavel pela atualização da lista de compras do cliente",
         "tags": [
           "Carrinho"
         ],
+        "description": "",
         "parameters": [
           {
             "name": "clienteId",
@@ -524,28 +505,5 @@
       }
     }
   },
-  "components": {
-    "schemas": {
-      "Cliente": {
-        "type": "object",
-        "properties":{
-          "id": {
-            "type": "number"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  }
+  "definitions": {}
 }
