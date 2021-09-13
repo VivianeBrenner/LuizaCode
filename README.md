@@ -1,6 +1,8 @@
+![ladies get](https://user-images.githubusercontent.com/88917989/133121242-25fa6cdd-a46d-48fb-8cf8-adc7c1726fef.gif)
+
 # 💻 ladies.get
 
-> Este é um projeto desenvolvido durante o **Luiza Code #3 Node.js** com o objetivo de projeto final, apresentado no 13 ou 14 de Setembro de 2021.
+> Projeto desenvolvido durante o programa de aceleração **Luiza Code #3 Node.js** em parceria com a Gama Academy. Apresentado para banca final entre 13 e 14 de Setembro de 2021.
 
 
 *Serviço HTTP resolvendo a funcionalidade de Omni Channel.* 
@@ -48,7 +50,7 @@ Para iniciá-lo, siga os passos abaixo:
 # Instala as dependências do projeto
 yarn
 ```
-No seu cliente SQL, crie um banco de dados chamado *omnichannel*.
+No seu cliente SQL, crie um banco de dados chamado *omni_channel*.
 Após criação do banco de dados, caso tenha colocado senha, verifique a inclusão no arquivo `ormconfig.json`, junto com o username.
 
 ```sh
