@@ -25,7 +25,7 @@ const ShoppingCartsController = {
 
     async updateCart(req: Request, res: Response) {
         if (!req.body || !req.body.produtos || !Array.isArray(req.body.produtos)) {
-            return res.status(404).json({errorMessage: "Error! Malformed request body."})
+            return res.status(500).json({errorMessage: "Error! Malformed request body."})
         }
         const customerId = req.params.clienteId
         let updatedItems = Array<CartItem>()
@@ -33,11 +33,11 @@ const ShoppingCartsController = {
         req.body.produtos.forEach(product => {
             // Making sure that for each product we receive the "produtotId" and the "quantidade"
             if (product.produtoId === undefined || product.quantidade === undefined) {
-                return res.status(404).json({errorMessage: "Error! Malformed request body."})
+                return res.status(500).json({errorMessage: "Error! Malformed request body."})
             }
             // Checking each product quantity is 1
             if (product.quantidade !== 1) {
-                return res.status(404).json({errorMessage: "Error! Each product can just be purchase once."})
+                return res.status(500).json({errorMessage: "Error! Each product can just be purchase once."})
             }
 
             let newItem = new CartItem()
@@ -58,7 +58,7 @@ const ShoppingCartsController = {
             await repository.save(updatedItems)
         } catch (error) {
             console.log(error)
-            return res.status(404).json({errorMessage: "An unknown error happenned. Try again please."})
+            return res.status(500).json({errorMessage: "An unknown error happenned. Try again please."})
         }
 
         return res.status(200).json(updatedItems)
@@ -74,7 +74,7 @@ const ShoppingCartsController = {
             repository.remove(cartItems)
         }
 
-        return res.status(200).json([])
+        return res.status(204).json()
     },
 
     // Remove items from cart and create an order out of them
@@ -88,7 +88,7 @@ const ShoppingCartsController = {
         const cartItems = await repository.find({relations: ["product"], where: {"customerId": customerId}})
         
         if (!cartItems || cartItems.length === 0) {
-            return res.status(404).json({errorMessage: "Your cart is currently empty. Nothing to be checked out."})
+            return res.status(403).json({errorMessage: "Your cart is currently empty. Nothing to be checked out."})
         }
 
         let order = new Order()
@@ -123,7 +123,7 @@ const ShoppingCartsController = {
             order.orderItems = currentItems
             return res.status(200).json(order)
         } catch (error) {
-            return res.status(404).json({errorMessage: "Error. Please check you have the right store Id."})
+            return res.status(500).json({errorMessage: "Error. Please check you have the right store Id."})
         }
         
     }

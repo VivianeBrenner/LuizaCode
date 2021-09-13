@@ -38,9 +38,9 @@ const OrdersController = {
     },
 
     async releaseOrder(req: Request, res: Response) {
-        // make sure that the client is submitting the isPickedup and that it's set to 1
-        if (!req.body || !req.body.isPickedup || req.body.isPickedup !== 1) {
-            return res.status(404).json({errorMessage: "Malformed request."})
+        // make sure that the client is submitting the isPickedup and that it's set to true
+        if (!req.body || !req.body.isPickedup || req.body.isPickedup !== true) {
+            return res.status(404).json({errorMessage: "'isPickedup' must be submitted as True."})
         }
 
         const customerId = req.params.clienteId
@@ -59,6 +59,7 @@ const OrdersController = {
         }
         
         foundOrder.isPickedup = 1;
+        foundOrder.datePickedup = new Date();
         foundOrder.save()
 
         return res.status(200).json(foundOrder)

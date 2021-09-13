@@ -7,7 +7,6 @@ const StoresController = {
     async getAllStores(_req: Request, res: Response) {
         const repository = getCustomRepository(StoreRepository)
         const allStores = await repository.find()
-
         return res.status(200).json(allStores)
     },
 
@@ -19,23 +18,23 @@ const StoresController = {
         if (!foundStore) {
             return res.status(404).json({errorMessage: "Store not found"})
         }
-        
+
         return res.status(200).json(foundStore)
     },
 
     async createStore(req: Request, res: Response) {
-
         const newStoreData = req.body
         const repository = getCustomRepository(StoreRepository)
         try {
             const newStore = await repository.save(newStoreData)
             return res.status(200).json(newStore)
         } catch (e) {
-            return res.status(404).json({errorMessage: "Unable to create store. Malformed data."})
+            return res.status(500).json({errorMessage: "Unable to create store. Malformed data."})
         }
     },
 
     async updateStore(req: Request, res: Response) {
+
         const storeId = req.params.lojaId
         const repository = getCustomRepository(StoreRepository)
 
@@ -55,16 +54,19 @@ const StoresController = {
             }
             return res.status(200).json(store)
         } catch (e) {
-            return res.status(404).json({errorMessage: "Error happened while updating the store."})
+            return res.status(500).json({errorMessage: "Error happened while updating the store."})
         }
     },
 
     async deleteStore(req: Request, res: Response) {
         const storeId = req.params.lojaId
         const repository = getCustomRepository(StoreRepository)
-        await repository.delete(storeId)
-
-        return res.status(200).json()
+        try {
+            await repository.delete(storeId)
+            return res.status(204).json()
+        } catch (e) {
+            return res.status(500).json({errorMessage: "Cannot delete store because of related existing orders."})
+        }
     }
 }
 

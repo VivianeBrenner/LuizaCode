@@ -9,7 +9,6 @@ const CustomersController = {
     async getAllCustomers(req: Request, res: Response) {
         const repository = getCustomRepository(CustomerRepository)
         const allCustomers = await repository.find()
-
         return res.status(200).json(allCustomers)
     },
 
@@ -34,7 +33,7 @@ const CustomersController = {
             const newCustomer = await repository.save(newCustomerData)
             return res.status(200).json(newCustomer)
         } catch (e) {
-            return res.status(404).json({errorMessage: "Unable to create customer. Malformed data."})
+            return res.status(500).json({errorMessage: "Unable to create customer. Malformed data."})
         }
     },
 
@@ -42,7 +41,6 @@ const CustomersController = {
     async updateCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(CustomerRepository)
-
         const existingCustomer = await repository.findOne(customerId)
         
         if (!existingCustomer) {
@@ -60,7 +58,7 @@ const CustomersController = {
             }
             return res.status(200).json(existingCustomer)
         } catch (e) {
-            return res.status(404).json({errorMessage: "Error happened while updating the customer"})
+            return res.status(500).json({errorMessage: "Error happened while updating the customer"})
         }
     },
 
@@ -68,9 +66,12 @@ const CustomersController = {
     async deleteCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(CustomerRepository)
-        await repository.delete(customerId)
-
-        return res.status(200).json()
+        try {
+            await repository.delete(customerId)
+            return res.status(204).json()
+        } catch (e) {
+            return res.status(500).json({errorMessage: "Cannot delete customer because of FK relation."})
+        }
     }
 
 }

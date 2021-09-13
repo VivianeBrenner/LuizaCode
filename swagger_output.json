@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "omnichannel luizacode",
-    "description": "Documentação dos endpoints referente ao projeto Omnichannel feito pelo grupo Ladies.get no programa Luizacode"
+    "title": "e-Commerce REST API",
+    "description": "Documentation for the omni-channel e-commerce REST API built by ladies.get"
   },
   "host": "localhost:3000",
   "basePath": "/",
@@ -21,28 +21,46 @@
     "/clientes": {
       "get": {
         "tags": [
-          "Clientes"
+          "Customers"
         ],
+        "summary": "Get all customers",
         "description": "",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User list",
+            "schema": {
+              "$ref": "#/definitions/CustomerArray"
+            }
           }
         }
       },
       "post": {
         "tags": [
-          "Clientes"
+          "Customers"
         ],
+        "summary": "Create a new customer",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "New Customer",
+            "in": "body",
+            "type": "object",
+            "description": "Customer data",
+            "schema": {
+              "$ref": "#/definitions/CreateCustomer"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User successfully created",
+            "schema": {
+              "$ref": "#/definitions/GetCustomer"
+            }
           },
-          "404": {
-            "description": "Not Found"
+          "500": {
+            "description": "Error happened while creating the new customer"
           }
         }
       }
@@ -50,8 +68,9 @@
     "/clientes/{clienteId}": {
       "get": {
         "tags": [
-          "Clientes"
+          "Customers"
         ],
+        "summary": "Get a specific customer",
         "description": "",
         "parameters": [
           {
@@ -63,17 +82,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User retrieved",
+            "schema": {
+              "$ref": "#/definitions/GetCustomer"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found"
           }
         }
       },
       "put": {
         "tags": [
-          "Clientes"
+          "Customers"
         ],
+        "summary": "Update a specific customer",
         "description": "",
         "parameters": [
           {
@@ -81,21 +104,37 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "Update Customer",
+            "in": "body",
+            "type": "object",
+            "description": "Customer new data",
+            "schema": {
+              "$ref": "#/definitions/CreateCustomer"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User successfully updated",
+            "schema": {
+              "$ref": "#/definitions/GetCustomer"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found"
+          },
+          "500": {
+            "description": "Error happened while updating the customer"
           }
         }
       },
       "delete": {
         "tags": [
-          "Clientes"
+          "Customers"
         ],
+        "summary": "Delete a customer",
         "description": "",
         "parameters": [
           {
@@ -106,8 +145,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Cannot delete customer because of FK relation"
           }
         }
       }
@@ -115,8 +157,9 @@
     "/clientes/{clienteId}/pedidos": {
       "get": {
         "tags": [
-          "Clientes"
+          "Orders"
         ],
+        "summary": "Get all orders for a customer",
         "description": "",
         "parameters": [
           {
@@ -128,10 +171,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Orders retrieved",
+            "schema": {
+              "$ref": "#/definitions/GetOrderArray"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer not found"
           }
         }
       }
@@ -139,8 +185,9 @@
     "/clientes/{clienteId}/pedidos/{pedidoId}": {
       "get": {
         "tags": [
-          "Clientes"
+          "Orders"
         ],
+        "summary": "Get a customer",
         "description": "",
         "parameters": [
           {
@@ -158,17 +205,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Order retrieved",
+            "schema": {
+              "$ref": "#/definitions/GetPickedupOrder"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer or Order not found"
           }
         }
       },
       "put": {
         "tags": [
-          "Clientes"
+          "Orders"
         ],
+        "summary": "Change order status to \"picked-up\"",
         "description": "",
         "parameters": [
           {
@@ -184,24 +235,27 @@
             "type": "string"
           },
           {
-            "name": "obj",
+            "name": "Release Order",
             "in": "body",
+            "type": "object",
+            "description": "Release order data",
             "schema": {
-              "type": "object",
-              "properties": {
-                "isPickedup": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/ReleaseOrder"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Order successfully updated",
+            "schema": {
+              "$ref": "#/definitions/GetPickedupOrder"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Customer or Order not found"
+          },
+          "500": {
+            "description": "Error happened while updating the order status"
           }
         }
       }
@@ -209,28 +263,49 @@
     "/produtos": {
       "get": {
         "tags": [
-          "Produtos"
+          "Products"
         ],
+        "summary": "Get all products",
         "description": "",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Products list",
+            "schema": {
+              "$ref": "#/definitions/ProductArray"
+            }
           }
         }
       },
       "post": {
         "tags": [
-          "Produtos"
+          "Products"
         ],
+        "summary": "Create new product",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "New Product",
+            "in": "body",
+            "type": "object",
+            "description": "Product data",
+            "schema": {
+              "$ref": "#/definitions/CreateProduct"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Product successfully created",
+            "schema": {
+              "$ref": "#/definitions/GetProduct"
+            }
           },
           "404": {
             "description": "Not Found"
+          },
+          "500": {
+            "description": "Error happened while creating the new product"
           }
         }
       }
@@ -238,8 +313,9 @@
     "/produtos/{produtoId}": {
       "get": {
         "tags": [
-          "Produtos"
+          "Products"
         ],
+        "summary": "Get a specific product",
         "description": "",
         "parameters": [
           {
@@ -251,17 +327,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Product retrieved",
+            "schema": {
+              "$ref": "#/definitions/GetProduct"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Product not found"
           }
         }
       },
       "put": {
         "tags": [
-          "Produtos"
+          "Products"
         ],
+        "summary": "Update a specific product",
         "description": "",
         "parameters": [
           {
@@ -269,21 +349,37 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "Update Product",
+            "in": "body",
+            "type": "object",
+            "description": "Product new data",
+            "schema": {
+              "$ref": "#/definitions/CreateProduct"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Product successfully updated",
+            "schema": {
+              "$ref": "#/definitions/GetProduct"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Product not found"
+          },
+          "500": {
+            "description": "Error happened while updating the product"
           }
         }
       },
       "delete": {
         "tags": [
-          "Produtos"
+          "Products"
         ],
+        "summary": "Delete a specific product",
         "description": "",
         "parameters": [
           {
@@ -294,8 +390,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Cannot delete product because of FK relation"
           }
         }
       }
@@ -303,28 +402,46 @@
     "/lojas": {
       "get": {
         "tags": [
-          "Lojas"
+          "Stores"
         ],
+        "summary": "Get all stores",
         "description": "",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Store list",
+            "schema": {
+              "$ref": "#/definitions/StoreArray"
+            }
           }
         }
       },
       "post": {
         "tags": [
-          "Lojas"
+          "Stores"
         ],
+        "summary": "Create a new store",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "New Store",
+            "in": "body",
+            "type": "object",
+            "description": "Store data",
+            "schema": {
+              "$ref": "#/definitions/CreateStore"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Store successfully created",
+            "schema": {
+              "$ref": "#/definitions/GetStore"
+            }
           },
-          "404": {
-            "description": "Not Found"
+          "500": {
+            "description": "Error happened while creating the new store."
           }
         }
       }
@@ -332,8 +449,9 @@
     "/lojas/{lojaId}": {
       "get": {
         "tags": [
-          "Lojas"
+          "Stores"
         ],
+        "summary": "Get a specific store",
         "description": "",
         "parameters": [
           {
@@ -345,17 +463,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Store retrieved",
+            "schema": {
+              "$ref": "#/definitions/GetStore"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Store not found"
           }
         }
       },
       "put": {
         "tags": [
-          "Lojas"
+          "Stores"
         ],
+        "summary": "Update a specific store",
         "description": "",
         "parameters": [
           {
@@ -363,21 +485,37 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "Update Store",
+            "in": "body",
+            "type": "object",
+            "description": "Store new data",
+            "schema": {
+              "$ref": "#/definitions/CreateStore"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Store updated successfully",
+            "schema": {
+              "$ref": "#/definitions/GetStore"
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Store not found"
+          },
+          "500": {
+            "description": "Error happened while updating the store."
           }
         }
       },
       "delete": {
         "tags": [
-          "Lojas"
+          "Stores"
         ],
+        "summary": "Delete a specific store",
         "description": "",
         "parameters": [
           {
@@ -388,8 +526,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Cannot delete store because of FK relation"
           }
         }
       }
@@ -397,8 +538,9 @@
     "/clientes/{clienteId}/carrinho": {
       "get": {
         "tags": [
-          "Carrinho"
+          "Shopping Cart"
         ],
+        "summary": "Get a customer's shopping cart",
         "description": "",
         "parameters": [
           {
@@ -410,14 +552,21 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of cart items",
+            "schema": {
+              "$ref": "#/definitions/CartItemArray"
+            }
+          },
+          "404": {
+            "description": "Customer not found"
           }
         }
       },
       "put": {
         "tags": [
-          "Carrinho"
+          "Shopping Cart"
         ],
+        "summary": "Update a customer",
         "description": "",
         "parameters": [
           {
@@ -427,31 +576,32 @@
             "type": "string"
           },
           {
-            "name": "obj",
+            "name": "Update Shopping Cart",
             "in": "body",
+            "type": "object",
+            "description": "Shopping cart new items",
             "schema": {
-              "type": "object",
-              "properties": {
-                "produtos": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/AddCartItemArray"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of cart items",
+            "schema": {
+              "$ref": "#/definitions/CartItemArray"
+            }
           },
-          "404": {
-            "description": "Not Found"
+          "500": {
+            "description": "An unknown error happenned. Try again please."
           }
         }
       },
       "delete": {
         "tags": [
-          "Carrinho"
+          "Shopping Cart"
         ],
+        "summary": "Empty a customer's shopping cart",
         "description": "",
         "parameters": [
           {
@@ -462,8 +612,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -471,8 +621,9 @@
     "/clientes/{clienteId}/carrinho/checkout": {
       "put": {
         "tags": [
-          "Carrinho"
+          "Shopping Cart"
         ],
+        "summary": "Checkout a customer",
         "description": "",
         "parameters": [
           {
@@ -482,28 +633,359 @@
             "type": "string"
           },
           {
-            "name": "obj",
+            "name": "Checkout",
             "in": "body",
+            "type": "object",
+            "description": "Checkout current cart",
             "schema": {
-              "type": "object",
-              "properties": {
-                "storeId": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Checkout"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of cart items",
+            "schema": {
+              "$ref": "#/definitions/CartItemArray"
+            }
+          },
+          "403": {
+            "description": "Your cart is currently empty. Nothing to be checked out."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Error! Malformed request body."
+          },
+          "500": {
+            "description": "Error. Please check you have the right store Id."
           }
         }
       }
     }
   },
-  "definitions": {}
+  "definitions": {
+    "CreateCustomer": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "john@doe.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "asdf33lasdf32ZZ"
+        }
+      }
+    },
+    "GetCustomer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "john@doe.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "asdf33lasdf32ZZ"
+        }
+      }
+    },
+    "CustomerArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GetCustomer"
+      }
+    },
+    "CreateStore": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Magazine Luiza"
+        },
+        "phone": {
+          "type": "string",
+          "example": "+55 33 99956-2696"
+        },
+        "address": {
+          "type": "string",
+          "example": "Rua Raul Sores, numero 46, bairro Centro, Caratinga-MG"
+        }
+      }
+    },
+    "GetStore": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Magazine Luiza"
+        },
+        "phone": {
+          "type": "string",
+          "example": "+55 33 99956-2696"
+        },
+        "address": {
+          "type": "string",
+          "example": "Rua Raul Sores, numero 46, bairro Centro, Caratinga-MG"
+        }
+      }
+    },
+    "StoreArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GetStore"
+      }
+    },
+    "CreateProduct": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Product A"
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "https://google.image.com"
+        },
+        "price": {
+          "type": "number",
+          "example": 12.4
+        }
+      }
+    },
+    "GetProduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Product A"
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "https://google.image.com"
+        },
+        "price": {
+          "type": "string",
+          "example": "12.40"
+        }
+      }
+    },
+    "ProductArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GetProduct"
+      }
+    },
+    "isPickedUpStatus": {
+      "type": "object",
+      "properties": {
+        "isPickedup": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "GetOrderItem": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "number",
+          "example": 1
+        },
+        "productName": {
+          "type": "string",
+          "example": "Product A"
+        },
+        "price": {
+          "type": "number",
+          "example": 12.4
+        },
+        "amount": {
+          "type": "number",
+          "example": 2
+        },
+        "subTotal": {
+          "type": "number",
+          "example": 24.8
+        }
+      }
+    },
+    "GetOrderItemArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GetOrderItem"
+      }
+    },
+    "GetCartItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Product A"
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "https://google.image.com"
+        },
+        "price": {
+          "type": "string",
+          "example": "12.40"
+        },
+        "amount": {
+          "type": "string",
+          "example": "2"
+        }
+      }
+    },
+    "CartItemArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GetCartItem"
+      }
+    },
+    "AddCartItem": {
+      "type": "object",
+      "properties": {
+        "produtoId": {
+          "type": "number",
+          "example": 1
+        },
+        "quantidade": {
+          "type": "number",
+          "example": 2
+        }
+      }
+    },
+    "AddCartItemArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AddCartItem"
+      }
+    },
+    "UpdateCart": {
+      "type": "object",
+      "properties": {
+        "produtos": {
+          "$ref": "#/definitions/AddCartItemArray"
+        }
+      }
+    },
+    "Checkout": {
+      "type": "object",
+      "properties": {
+        "storeId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "ReleaseOrder": {
+      "type": "object",
+      "properties": {
+        "isPickedup": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "GetPlacedOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "total": {
+          "type": "number",
+          "example": 100.12
+        },
+        "isPickedup": {
+          "type": "number",
+          "example": 0
+        },
+        "datePlaced": {
+          "type": "string",
+          "example": "13-09-2021"
+        },
+        "datePickedup": {
+          "type": "string",
+          "example": ""
+        },
+        "store": {
+          "$ref": "#/definitions/GetStore"
+        },
+        "items": {
+          "$ref": "#/definitions/GetOrderItemArray"
+        }
+      }
+    },
+    "GetPickedupOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "total": {
+          "type": "number",
+          "example": 100.12
+        },
+        "isPickedup": {
+          "type": "number",
+          "example": 1
+        },
+        "datePlaced": {
+          "type": "string",
+          "example": "13-09-2021"
+        },
+        "datePickedup": {
+          "type": "string",
+          "example": "14-09-2021"
+        },
+        "store": {
+          "$ref": "#/definitions/GetStore"
+        },
+        "items": {
+          "$ref": "#/definitions/GetOrderItemArray"
+        }
+      }
+    },
+    "GetOrderArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/GetPickedupOrder"
+      }
+    }
+  }
 }

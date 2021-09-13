@@ -8,7 +8,6 @@ const ProductsController = {
     async getAllProducts(_req: Request, res: Response) {
         const repository = getCustomRepository(ProductRepository)
         const allProducts = await repository.find()
-
         return res.status(200).json(allProducts)
     },
 
@@ -29,7 +28,7 @@ const ProductsController = {
         const repository = getCustomRepository(ProductRepository)
         try {
             const newProduct= await repository.save(newProductData)
-            return res.status(200).json(newProductData)
+            return res.status(200).json(newProduct)
         } catch (e) {
             return res.status(404).json({errorMessage: "Unable to create product. Malformed data."})
         }
@@ -62,9 +61,12 @@ const ProductsController = {
     async deleteProduct(req: Request, res: Response) {
         const productId = req.params.produtoId
         const repository = getCustomRepository(ProductRepository)
-        await repository.delete(productId)
-
-        return res.status(200).json()
+        try {
+            await repository.delete(productId)
+            return res.status(204).json()
+        } catch (e) {
+            return res.status(500).json({errorMessage: "Cannot delete product because of FK relation."})
+        }
     }
 
 }
