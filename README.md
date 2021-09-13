@@ -1,3 +1,5 @@
+![ladies get](https://user-images.githubusercontent.com/88917989/133131928-5ed54925-487a-4230-b79f-e1c3222bbecd.gif)
+
 # Luiza Code #3 Omni-channel Challenge
 
 
