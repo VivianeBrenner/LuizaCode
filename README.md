@@ -2,7 +2,8 @@
 
 # 💻 ladies.get
 
-> Projeto desenvolvido durante o programa de aceleração **Luiza Code #3 Node.js** em parceria com a Gama Academy. Apresentado para banca final entre 13 e 14 de Setembro de 2021.
+> Projeto desenvolvido durante o programa de aceleração **Luiza Code #3 Node.js** em parceria com a Gama Academy. 
+> Apresentado para banca final entre 13 e 14 de Setembro de 2021.
 
 
 *Serviço HTTP resolvendo a funcionalidade de Omni Channel.* 
