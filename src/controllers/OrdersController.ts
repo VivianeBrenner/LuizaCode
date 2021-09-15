@@ -6,7 +6,8 @@ import OrderRepository  from '../repositories/OrderRepository'
 
 
 const OrdersController = {
- 
+    
+    // Get all orders for a specific customer
     async getAllOrdersForCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(CustomerRepository)
@@ -22,6 +23,7 @@ const OrdersController = {
         return res.status(200).json(foundOrders)
     },
 
+    // Get a specific order for a specific customer
     async getOrderForCustomer(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const orderId = req.params.pedidoId
@@ -37,8 +39,9 @@ const OrdersController = {
         return res.status(200).json(foundOrder)
     },
 
+    // Release a specific order for a spefic customer
     async releaseOrder(req: Request, res: Response) {
-        // make sure that the client is submitting the isPickedup and that it's set to true
+        // Make sure that the client is submitting the isPickedup and that it's set to true
         if (!req.body || !req.body.isPickedup || req.body.isPickedup !== true) {
             return res.status(404).json({errorMessage: "'isPickedup' must be submitted as True."})
         }
@@ -57,7 +60,7 @@ const OrdersController = {
         if (foundOrder.isPickedup == 1) {
             return res.status(404).json({errorMessage: "This order has already been picked up."})
         }
-        
+
         foundOrder.isPickedup = 1;
         foundOrder.datePickedup = new Date();
         foundOrder.save()
@@ -65,6 +68,7 @@ const OrdersController = {
         return res.status(200).json(foundOrder)
     },
 
+    // Total and subtotal for order's items
     appendAmountsToOrders(orders: Order[]) {
         let formattedOrders = orders.map(order => {
             let orderTotal = 0.0
@@ -92,6 +96,5 @@ const OrdersController = {
 
         return formattedOrders
     }
-
 }
 export default OrdersController

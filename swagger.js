@@ -12,21 +12,24 @@ const doc = {
     consumes: ['application/json'],
     produces: ['application/json'],
     definitions: {
+        
         // Customers
         CreateCustomer: {
-            firstName: "John",
-            lastName: "Doe",
-            email: "john@doe.com",
+            firstName: "Luiza",
+            lastName: "Trajano",
+            email: "luiza@trajano.com",
             password: "asdf33lasdf32ZZ"
         },
         GetCustomer: {
             id: 1,
-            firstName: "John",
-            lastName: "Doe",
-            email: "john@doe.com",
+            firstName: "Luiza",
+            lastName: "Trajano",
+            email: "luiza@trajano.com",
             password: "asdf33lasdf32ZZ"
         },
-        CustomerArray: [{ $ref: '#/definitions/GetCustomer' }],
+        CustomerArray: [
+            { $ref: '#/definitions/GetCustomer' }
+        ],
 
         // Stores
         CreateStore: {
@@ -40,7 +43,9 @@ const doc = {
             phone: "+55 33 99956-2696",
             address: "Rua Raul Sores, numero 46, bairro Centro, Caratinga-MG",
         },
-        StoreArray: [{ $ref: '#/definitions/GetStore' }],
+        StoreArray: [
+            { $ref: '#/definitions/GetStore' }
+        ],
 
         // Products
         CreateProduct: {
@@ -54,7 +59,34 @@ const doc = {
             imageUrl: "https://google.image.com",
             price: "12.40",
         },
-        ProductArray: [{ $ref: '#/definitions/GetProduct' }],
+        ProductArray: [
+            { $ref: '#/definitions/GetProduct' }
+        ],
+
+        // Shopping Cart
+        GetCartItem: {
+            id: 1,
+            name: "Product A",
+            imageUrl: "https://google.image.com",
+            price: "12.40",
+            amount: "1",
+        },
+        CartItemArray: [
+            { $ref: '#/definitions/GetCartItem' }
+        ],
+        AddCartItem: {
+            produtoId: 1,
+            quantidade: 1
+        },
+        AddCartItemArray: {
+           produtos: [{ $ref: '#/definitions/AddCartItem' }]
+        },
+        UpdateCart: {
+            produtos: { $ref: '#/definitions/AddCartItemArray' }
+        },
+        Checkout: {
+            storeId: 1
+        },
 
         // Ordes
         isPickedUpStatus: {
@@ -64,29 +96,12 @@ const doc = {
             productId: 1,
             productName: "Product A",
             price: 12.40,
-            amount: 2,
-            subTotal: 24.80
+            amount: 1,
+            subTotal: 12.40
         },
-        GetOrderItemArray: [{ $ref: '#/definitions/GetOrderItem' }],
-        GetCartItem: {
-            id: 1,
-            name: "Product A",
-            imageUrl: "https://google.image.com",
-            price: "12.40",
-            amount: "2",
-        },
-        CartItemArray: [{ $ref: '#/definitions/GetCartItem' }],
-        AddCartItem: {
-            produtoId: 1,
-            quantidade: 2
-        },
-        AddCartItemArray: [{ $ref: '#/definitions/AddCartItem' }],
-        UpdateCart: {
-            produtos: { $ref: '#/definitions/AddCartItemArray' }
-        },
-        Checkout: {
-            storeId: 1
-        },
+        GetOrderItemArray: [
+            { $ref: '#/definitions/GetOrderItem' }
+        ],
         ReleaseOrder: {
             isPickedup: true
         },
@@ -108,7 +123,10 @@ const doc = {
             store: {$ref: '#/definitions/GetStore'},
             items: { $ref: '#/definitions/GetOrderItemArray' }
         },
-        GetOrderArray: [{ $ref: '#/definitions/GetPickedupOrder' }]
+        GetOrderArray: [
+            { $ref: '#/definitions/GetPickedupOrder' }
+        ]   
+    
     }
     
 }

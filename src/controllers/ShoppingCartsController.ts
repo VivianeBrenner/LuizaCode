@@ -10,7 +10,8 @@ import OrderItemRepository from '../repositories/OrderItemRepository'
 
 
 const ShoppingCartsController = {
- 
+    
+    // Get a cart
     async getCart(req: Request, res: Response) {
         const customerId = req.params.clienteId
         const repository = getCustomRepository(CartItemRepository)
@@ -22,7 +23,8 @@ const ShoppingCartsController = {
             return item
         }))
     },
-
+    
+    // Update the cart
     async updateCart(req: Request, res: Response) {
         if (!req.body || !req.body.produtos || !Array.isArray(req.body.produtos)) {
             return res.status(500).json({errorMessage: "Error! Malformed request body."})

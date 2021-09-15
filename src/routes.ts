@@ -10,9 +10,7 @@ import {
 
 const routes = Router()
 
-/////////////////////
 // CUSTOMER ROUTES //
-/////////////////////
 routes.get('/clientes', 
   /* 
     #swagger.tags = ['Customers'] 
@@ -83,129 +81,7 @@ routes.delete('/clientes/:clienteId',
 	CustomersController.deleteCustomer
 )
 
-////////////////////
-//  ORDER ROUTES  //
-////////////////////
-routes.get('/clientes/:clienteId/pedidos', 
-	/*
-		#swagger.tags = ['Orders']
-		#swagger.summary = 'Get all orders for a customer'
-    #swagger.responses[404] = { description: 'Customer not found' }
-    #swagger.responses[200] = {
-      description: 'Orders retrieved',
-      schema: { $ref: '#/definitions/GetOrderArray' }
-    }
-	*/
-	OrdersController.getAllOrdersForCustomer
-)
-routes.get('/clientes/:clienteId/pedidos/:pedidoId', 
-	/*
-		#swagger.tags = ['Orders']
-		#swagger.summary = 'Get a customer's specific order'
-    #swagger.responses[404] = { description: 'Customer or Order not found' }
-    #swagger.responses[200] = {
-      description: 'Order retrieved',
-      schema: { $ref: '#/definitions/GetPickedupOrder' }
-    }
-	*/
-	OrdersController.getOrderForCustomer
-)
-routes.put('/clientes/:clienteId/pedidos/:pedidoId', 
-	/*
-		#swagger.tags = ['Orders']
-		#swagger.summary = 'Change order status to "picked-up"'
-    #swagger.parameters['Release Order'] = {
-      in: 'body',
-      type: 'object',
-      description: 'Release order data',
-      schema: { $ref: '#/definitions/ReleaseOrder' }
-    }
-    #swagger.responses[200] = {
-      description: 'Order successfully updated',
-      schema: { $ref: '#/definitions/GetPickedupOrder' }
-    }
-    #swagger.responses[404] = { description: 'Customer or Order not found' }
-    #swagger.responses[500] = { description: 'Error happened while updating the order status' }
-	*/
-	OrdersController.releaseOrder
-)
-
-////////////////////
-// PRODUCT ROUTES //
-////////////////////
-routes.get('/produtos', 
-	/*
-		#swagger.tags = ['Products']
-		#swagger.summary = 'Get all products'
-    #swagger.responses[200] = {
-      description: 'Products list',
-      schema: { $ref: '#/definitions/ProductArray' }
-    }
-	*/
-	ProductsController.getAllProducts
-)
-routes.post('/produtos', 
-	/*
-		#swagger.tags = ['Products']
-		#swagger.summary = 'Create new product'
-    #swagger.parameters['New Product'] = {
-      in: 'body',
-      type: 'object',
-      description: 'Product data',
-      schema: { $ref: '#/definitions/CreateProduct' }
-    }
-    #swagger.responses[200] = {
-      description: 'Product successfully created',
-      schema: { $ref: '#/definitions/GetProduct' }
-    }
-    #swagger.responses[500] = { description: 'Error happened while creating the new product' }
-	*/
-	ProductsController.createProduct
-)
-routes.get('/produtos/:produtoId', 
-	/*
-		#swagger.tags = ['Products']
-		#swagger.summary = 'Get a specific product'
-    #swagger.responses[404] = { description: 'Product not found' }
-    #swagger.responses[200] = {
-      description: 'Product retrieved',
-      schema: { $ref: '#/definitions/GetProduct' }
-    }
-	*/
-	ProductsController.getProduct
-)
-routes.put('/produtos/:produtoId', 
-	/*
-		#swagger.tags = ['Products']
-		#swagger.summary = 'Update a specific product'
-    #swagger.parameters['Update Product'] = {
-      in: 'body',
-      type: 'object',
-      description: 'Product new data',
-      schema: { $ref: '#/definitions/CreateProduct' }
-    }
-    #swagger.responses[200] = {
-      description: 'Product successfully updated',
-      schema: { $ref: '#/definitions/GetProduct' }
-    }
-    #swagger.responses[404] = { description: 'Product not found' }
-    #swagger.responses[500] = { description: 'Error happened while updating the product' }
-	*/
-	ProductsController.updateProduct
-)
-routes.delete('/produtos/:produtoId', 
-	/*
-		#swagger.tags = ['Products']
-		#swagger.summary = 'Delete a specific product'
-    #swagger.responses[204] = null
-    #swagger.responses[500] = { description: 'Cannot delete product because of FK relation' }
-	*/
-	ProductsController.deleteProduct
-)
-
-//////////////////
 // STORE ROUTES //
-//////////////////
 routes.get(
   '/lojas', 
   /* 
@@ -277,9 +153,78 @@ routes.delete('/lojas/:lojaId',
 	StoresController.deleteStore
 )
 
-//////////////////////////
+// PRODUCT ROUTES //
+routes.get('/produtos', 
+	/*
+		#swagger.tags = ['Products']
+		#swagger.summary = 'Get all products'
+    #swagger.responses[200] = {
+      description: 'Products list',
+      schema: { $ref: '#/definitions/ProductArray' }
+    }
+	*/
+	ProductsController.getAllProducts
+)
+routes.post('/produtos', 
+	/*
+		#swagger.tags = ['Products']
+		#swagger.summary = 'Create new product'
+    #swagger.parameters['New Product'] = {
+      in: 'body',
+      type: 'object',
+      description: 'Product data',
+      schema: { $ref: '#/definitions/CreateProduct' }
+    }
+    #swagger.responses[200] = {
+      description: 'Product successfully created',
+      schema: { $ref: '#/definitions/GetProduct' }
+    }
+    #swagger.responses[500] = { description: 'Error happened while creating the new product' }
+	*/
+	ProductsController.createProduct
+)
+routes.get('/produtos/:produtoId', 
+	/*
+		#swagger.tags = ['Products']
+		#swagger.summary = 'Get a specific product'
+    #swagger.responses[404] = { description: 'Product not found' }
+    #swagger.responses[200] = {
+      description: 'Product retrieved',
+      schema: { $ref: '#/definitions/GetProduct' }
+    }
+	*/
+	ProductsController.getProduct
+)
+routes.put('/produtos/:produtoId', 
+	/*
+		#swagger.tags = ['Products']
+		#swagger.summary = 'Update a specific product'
+    #swagger.parameters['Update Product'] = {
+      in: 'body',
+      type: 'object',
+      description: 'Product new data',
+      schema: { $ref: '#/definitions/CreateProduct' }
+    }
+    #swagger.responses[200] = {
+      description: 'Product successfully updated',
+      schema: { $ref: '#/definitions/GetProduct' }
+    }
+    #swagger.responses[404] = { description: 'Product not found' }
+    #swagger.responses[500] = { description: 'Error happened while updating the product' }
+	*/
+	ProductsController.updateProduct
+)
+routes.delete('/produtos/:produtoId', 
+	/*
+		#swagger.tags = ['Products']
+		#swagger.summary = 'Delete a specific product'
+    #swagger.responses[204] = null
+    #swagger.responses[500] = { description: 'Cannot delete product because of FK relation' }
+	*/
+	ProductsController.deleteProduct
+)
+
 // SHOPPING CART ROUTES //
-//////////////////////////
 routes.get('/clientes/:clienteId/carrinho', 
 	/*
 		#swagger.tags = ['Shopping Cart']
@@ -337,6 +282,51 @@ routes.put('/clientes/:clienteId/carrinho/checkout',
     }
 	*/
 	ShoppingCartsController.checkout
+)
+
+//  ORDER ROUTES  //
+routes.get('/clientes/:clienteId/pedidos', 
+	/*
+		#swagger.tags = ['Orders']
+		#swagger.summary = 'Get all orders for a customer'
+    #swagger.responses[404] = { description: 'Customer not found' }
+    #swagger.responses[200] = {
+      description: 'Orders retrieved',
+      schema: { $ref: '#/definitions/GetOrderArray' }
+    }
+	*/
+	OrdersController.getAllOrdersForCustomer
+)
+routes.get('/clientes/:clienteId/pedidos/:pedidoId', 
+	/*
+		#swagger.tags = ['Orders']
+		#swagger.summary = 'Get a customer's specific order'
+    #swagger.responses[404] = { description: 'Customer or Order not found' }
+    #swagger.responses[200] = {
+      description: 'Order retrieved',
+      schema: { $ref: '#/definitions/GetPickedupOrder' }
+    }
+	*/
+	OrdersController.getOrderForCustomer
+)
+routes.put('/clientes/:clienteId/pedidos/:pedidoId', 
+	/*
+		#swagger.tags = ['Orders']
+		#swagger.summary = 'Change order status to "picked-up"'
+    #swagger.parameters['Release Order'] = {
+      in: 'body',
+      type: 'object',
+      description: 'Release order data',
+      schema: { $ref: '#/definitions/ReleaseOrder' }
+    }
+    #swagger.responses[200] = {
+      description: 'Order successfully updated',
+      schema: { $ref: '#/definitions/GetPickedupOrder' }
+    }
+    #swagger.responses[404] = { description: 'Customer or Order not found' }
+    #swagger.responses[500] = { description: 'Error happened while updating the order status' }
+	*/
+	OrdersController.releaseOrder
 )
 
 export default routes

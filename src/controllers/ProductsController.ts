@@ -4,13 +4,15 @@ import ProductRepository from '../repositories/ProductRepository'
 
 
 const ProductsController = {
- 
+    
+    // Get all products
     async getAllProducts(_req: Request, res: Response) {
         const repository = getCustomRepository(ProductRepository)
         const allProducts = await repository.find()
         return res.status(200).json(allProducts)
     },
-
+    
+    // Get a specific products
     async getProduct(req: Request, res: Response) {
         const productId = req.params.produtoId
         const repository = getCustomRepository(ProductRepository)
@@ -23,6 +25,7 @@ const ProductsController = {
         return res.status(200).json(foundProduct)
     },
 
+    // Create a product
     async createProduct(req: Request, res: Response) {
         const newProductData = req.body
         const repository = getCustomRepository(ProductRepository)
@@ -34,6 +37,7 @@ const ProductsController = {
         }
     },
 
+    // Update a product
     async updateProduct(req: Request, res: Response) {
         const productId = req.params.produtoId
         const repository = getCustomRepository(ProductRepository)
@@ -58,6 +62,7 @@ const ProductsController = {
         }
     },
 
+    // Delete a product
     async deleteProduct(req: Request, res: Response) {
         const productId = req.params.produtoId
         const repository = getCustomRepository(ProductRepository)

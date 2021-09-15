@@ -3,13 +3,15 @@ import { getCustomRepository } from 'typeorm'
 import StoreRepository from '../repositories/StoreRepository'
 
 const StoresController = {
- 
+    
+    // Get all stores
     async getAllStores(_req: Request, res: Response) {
         const repository = getCustomRepository(StoreRepository)
         const allStores = await repository.find()
         return res.status(200).json(allStores)
     },
 
+    // Get a specific store
     async getStore(req: Request, res: Response) {
         const storeId = req.params.lojaId
         const repository = getCustomRepository(StoreRepository)
@@ -22,6 +24,7 @@ const StoresController = {
         return res.status(200).json(foundStore)
     },
 
+    // Create a store
     async createStore(req: Request, res: Response) {
         const newStoreData = req.body
         const repository = getCustomRepository(StoreRepository)
@@ -33,6 +36,7 @@ const StoresController = {
         }
     },
 
+    // Update a store
     async updateStore(req: Request, res: Response) {
 
         const storeId = req.params.lojaId
@@ -58,6 +62,7 @@ const StoresController = {
         }
     },
 
+    // Delete a store
     async deleteStore(req: Request, res: Response) {
         const storeId = req.params.lojaId
         const repository = getCustomRepository(StoreRepository)
